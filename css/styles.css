@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.login {
+    width: 100%;
+    height: 100vh;
+}
+.loginPayroll {
+    text-align: center;
+    position: relative;
+    top: 50%;
+}
+.btn {
+    border-radius: 6px;
+    padding: 5px;
+}
+#bodyIndex {
+    background-image: url(../img/liquidacion.jpg);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+.payroll {
+    margin-top: 23px;
+}
+.btn-secundary:hover {
+    background-color: #28a745;
+    opacity: 0.89;
+    color: #ffffff;
+}
+.btn-secundary {
+    background-color: #28a745;
+    color: #ffffff;
+}
+.btns-section {
+    display: block;
+    margin-top: 15px;
+    float: right;
+}
