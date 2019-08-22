@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Payroll</title>
+    <link rel="stylesheet" type="text/css" href="./css/SweetAlert2/sweetalert.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .payroll {
+            margin-top: 23px;
+        }
+
+        .btn-secundary:hover {
+            background-color: #28a745;
+            opacity: 0.89;
+            color: #ffffff;
+        }
+
+        .btn-secundary {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+
+        .btns-section {
+            display: block;
+            margin-top: 15px;
+            float: right;
+        }
+
+        .buttons {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 70px;
+        }
+
+        .txtAlgCenter {
+            text-align: center;
+        }
+
+        .txtAlgRight {
+            text-align: right;
+        }
+
+        #result {
+            display: none;
+        }
+
+        .btn {
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="./dashboard.html">N&L</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./Payroll.html">Nómina <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./Settlement.html">Liquidación</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="logout()">Salir</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container">
+        <form>
+            <div class="btns-section">
+                <a class="btn btn-primary" href="./consultPayroll.html">Consultar</a>
+            </div>
+            <br><br>
+            <div class="form-row payroll">
+                <div class="col">
+                    <label for="document">Documento</label>
+                    <input type="number" class="form-control" id="document" placeholder="123456789">
+                </div>
+                <div class="col">
+                    <label for="fullName">Nombre Completo</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="Álvaro Pérez">
+                </div>
+            </div>
+            <div class="form-row payroll">
+                <div class="col">
+                    <label for="dayWorkers">Días laborados</label>
+                    <input type="number" class="form-control" id="dayWorkers" placeholder="30">
+                </div>
+                <div class="col">
+                    <label for="salary">Salario</label>
+                    <input type="number" class="form-control" id="salary" placeholder="828.116">
+                </div>
+                <div class="col">
+                    <label for="auxTransp">Auxilio de Transporte</label>
+                    <input type="number" class="form-control" id="auxTransp" placeholder="97.032">
+                </div>
+                <div class="col">
+                    <label for="othersMed">Otros medios</label>
+                    <input type="text" class="form-control" id="othersMed" placeholder="Otros medios">
+                </div>
+            </div>
+            <div class="form-row payroll">
+                <div class="col">
+                    <label for="salud">Salud</label>
+                    <input type="number" class="form-control" id="salud" readonly placeholder="Salud">
+                </div>
+                <div class="col">
+                    <label for="pension">Pensión</label>
+                    <input type="number" class="form-control" id="pension" readonly placeholder="Pensión">
+                </div>
+                <div class="col">
+                    <label for="incap">Incapacidad</label>
+                    <input type="text" class="form-control" id="incap" placeholder="Incapacidad">
+                </div>
+                <div class="col">
+                    <label for="total">Total</label>
+                    <input type="number" class="form-control" id="total" placeholder="Total">
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="btns-section">
+                    <input type="button" class="btn btn-primary" onclick="calculate()" value="Calcular">
+                    <input type="button" class="btn btn-secundary" value="Guardar">
+                </div>
+            </div>
+
+        </form>
+        <div class="result" id="result">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" class="txtAlgCenter">NOMINA DEL:</th>
+                        <td scope="col">01/03/2019</td>
+                        <th colspan="2" scope="col" class="txtAlgCenter">AL:</th>
+                        <td colspan="2" scope="col">01/03/2019</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row" colspan="2" class="txtAlgCenter">NOMBRE</th>
+                        <th colspan="2" class="txtAlgCenter">CEDULA</th>
+                        <th colspan="2" class="txtAlgCenter">CARGO</th>
+                    </tr>
+                    <tr>
+                        <td scope="row" colspan="2" class="txtAlgCenter" id="setFullName"></td>
+                        <td colspan="2" class="txtAlgCenter" id="setDocNumber"></td>
+                        <td colspan="2" class="txtAlgCenter">0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">DEVENGOS</th>
+                        <th>CANTIDAD</th>
+                        <th>VALOR</th>
+                        <th>DEDICCIONES</th>
+                        <th>CANTIDAD</th>
+                        <th>VALOR</th>
+                    </tr>
+                    <tr>
+                        <td scope="row">SALARIO</td>
+                        <td>26</td>
+                        <td>N/A</td>
+                        <td>SALUD</td>
+                        <td>15</td>
+                        <td>45.000</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">AUXILIO DE TRANSPORTE</td>
+                        <td>26</td>
+                        <td>N/A</td>
+                        <td>PENSIÓN</td>
+                        <td>15</td>
+                        <td>45.000</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">HORAS EXTRAS</td>
+                        <td></td>
+                        <td>N/A</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">RECARGOS</td>
+                        <td></td>
+                        <td>N/A</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">COMISIONES</td>
+                        <td></td>
+                        <td>N/A</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">BONIFICACIONES</td>
+                        <td></td>
+                        <td>N/A</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">AUXILIO DE RODAMIENTO</td>
+                        <td></td>
+                        <td>N/A</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="3" class="txtAlgCenter">SUBTOTAL</th>
+                        <th colspan="3" class="txtAlgRight">90.000</th>
+                    </tr>
+                    <tr>
+                        <th colspan="3" class="txtAlgCenter">TOTAL A PAGAR: </th>
+                        <th colspan="3" class="txtAlgRight">N/A</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="./scripts/sweetalert.min.js"></script>
+    <script>
+        function errorCampos() {
+            swal({
+                type: 'error',
+                title: '',
+                text: 'Por favor llene todos los campos para calcular Nómina.',
+                confirmButtonText: 'Ok',
+                showConfirmButton: true
+            });
+        }
+        function calculate() {
+            var numDoc = document.getElementById('document').value;
+            var fullName = document.getElementById('fullName').value;
+
+            var dayWorkers = document.getElementById('dayWorkers').value;
+            var salary = document.getElementById('salary').value;
+            var auxTransp = document.getElementById('auxTransp').value;
+            var othersMed = document.getElementById('othersMed').value;
+
+            var salud = document.getElementById('salud').value;
+            var pension = document.getElementById('pension').value;
+            var incap = document.getElementById('incap').value;
+            var total = document.getElementById('total').value;
+            console.log(fullName);
+
+            // if
+            if (fullName !== '' && numDoc !== '') {
+                if (dayWorkers !== '' && salary !== '' && auxTransp !== '' && othersMed !== '') {
+                    if (salud !== '' && pension !== '' && incap !== '') {
+                        console.log('Entró!');
+                        document.getElementById('setFullName').innerHTML = fullName;
+                        document.getElementById('setDocNumber').innerHTML = numDoc;
+                        document.querySelector('#result').style.display = 'block';
+                    }
+                    else {
+                        errorCampos()    
+                    }
+                }
+                else {
+                    errorCampos()
+                }
+            }
+            else {
+                errorCampos();
+            }
+
+            // Poner valor en campos
+            document.getElementById('setFullName').innerHTML = fullName;
+            document.getElementById('setDocNumber').innerHTML = numDoc;
+            // Aparece sección
+            // document.querySelector('#result').style.display = 'block';
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

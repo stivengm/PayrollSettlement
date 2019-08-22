@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PayrollSettlement</title>
+    <link rel="stylesheet" type="text/css" href="./css/SweetAlert2/sweetalert.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <LINK REL=StyleSheet HREF="css/styles.css" TYPE="text/css" MEDIA=screen>
+</head>
+<body id="bodyIndex">
+    <div class="login">
+        <div class="loginPayroll">
+            <form action="login" method="get">
+                <input type="text" id="email" name="email" placeholder="Correo Electrónico">
+                <input type="password" id="passowrd" name="passowrd" placeholder="Contraseña"><br>
+                <input type="button" class="btn btn-login" onclick="login()" value="Login">
+            </form>
+        </div>
+    </div>
+    <script src="./scripts/sweetalert.min.js"></script>
+    <script>
+        function localStorageAccount() {
+            sesionActiveProfile = 'true';
+            localStorage.setItem('sesionActive', sesionActiveProfile);
+            window.location.href = './dashboard.html';
+        }
+        function login() {
+            var email = "gamegameplay0@gmail.com";
+            var password = 'test';
+            console.log(email);
+            if (document.getElementById('email').value == email && document.getElementById('passowrd').value == password) {
+                swal({
+                    type: 'success',
+                    title: '',
+                    text: 'Bienvenido Administrador\n Fabian Andrey.',
+                    confirmButtonText: 'Ok',
+                    showConfirmButton: true
+                });
+                setTimeout('localStorageAccount()',5000)
+            } else {
+                swal({
+                    type: 'error',
+                    title: '',
+                    text: 'Error con las credenciales que ingresó.',
+                    confirmButtonText: 'Ok',
+                    showConfirmButton: true
+                });
+            }
+        }
+    </script>
+</body>
+</html>
